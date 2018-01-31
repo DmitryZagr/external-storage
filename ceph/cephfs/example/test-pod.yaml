@@ -1,0 +1,18 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-pod
+  namespace: cephfs
+spec:
+  containers:
+  - name: ceph-busybox
+    image: busybox          #2
+    command: ["sleep", "60000"]
+    volumeMounts:
+      - name: pvc
+        mountPath: "/mnt"
+  restartPolicy: "Never"
+  volumes:
+    - name: pvc
+      persistentVolumeClaim:
+        claimName: claim1
