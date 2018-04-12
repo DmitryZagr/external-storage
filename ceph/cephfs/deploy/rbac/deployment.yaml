@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: cephfs-provisioner
-        image: "quay.io/external_storage/cephfs-provisioner:latest"
+        image: "dmitryzagr/cephfs-provisioner:latest"
         env:
         - name: PROVISIONER_NAME
           value: ceph.com/cephfs
