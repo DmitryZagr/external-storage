@@ -121,8 +121,7 @@ class CephFSNativeDriver(object):
         client_entity = "client.{0}".format(auth_id)
         want_access_level = 'r' if readonly else 'rw'
         want_mds_cap = 'allow r,allow {0} path={1}'.format(want_access_level, path)
-        want_osd_cap = 'allow {0} pool={1} namespace={2}'.format(
-            want_access_level, pool_name, namespace)
+        want_osd_cap = 'allow *'
 
         try:
             existing = self._volume_client._rados_command(
@@ -150,8 +149,7 @@ class CephFSNativeDriver(object):
             # auth caps.
             unwanted_access_level = 'r' if want_access_level is 'rw' else 'rw'
             unwanted_mds_cap = 'allow {0} path={1}'.format(unwanted_access_level, path)
-            unwanted_osd_cap = 'allow {0} pool={1} namespace={2}'.format(
-                unwanted_access_level, pool_name, namespace)
+            unwanted_osd_cap = 'allow *'
 
             def cap_update(orig, want, unwanted):
                 # Updates the existing auth caps such that there is a single
@@ -246,8 +244,7 @@ class CephFSNativeDriver(object):
         access_levels = ('r', 'rw')
         want_mds_caps = {'allow {0} path={1}'.format(access_level, path)
                          for access_level in access_levels}
-        want_osd_caps = {'allow {0} pool={1} namespace={2}'.format(
-                         access_level, pool_name, namespace)
+        want_osd_caps = {'allow *'
                          for access_level in access_levels}
 
         try:
